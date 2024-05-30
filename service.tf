@@ -6,7 +6,7 @@ resource "aws_ecs_service" "main" {
 
   desired_count = var.service_task_count
 
-  launch_type = var.service_launch_type
+  # launch_type = var.service_launch_type
 
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
@@ -16,9 +16,21 @@ resource "aws_ecs_service" "main" {
     rollback = true
   }
 
-  ordered_placement_strategy {
-    type  = "spread"
-    field = "attribute:ecs.availability-zone"
+  dynamic "capacity_provider_strategy" {
+    for_each = var.service_launch_type
+
+    content {
+      capacity_provider = capacity_provider_strategy.value.capacity_provider
+      weight            = capacity_provider_strategy.value.weight
+    }
+  }
+
+  dynamic "ordered_placement_strategy" {
+    for_each = var.service_launch_type == "EC2" ? [1] : []
+    content {
+      type  = "spread"
+      field = "attribute:ecs.availability-zone"
+    }
   }
 
   network_configuration {
