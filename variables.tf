@@ -8,6 +8,10 @@ variable "service_name" {
   description = "Nome do serviço a ser utilizado no ECS ou identificador similar."
 }
 
+variable "container_image" {
+  type = string
+}
+
 variable "cluster_name" {
   type        = string
   description = "Nome do cluster ECS onde o serviço será implantado."
