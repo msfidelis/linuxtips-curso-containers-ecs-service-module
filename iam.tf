@@ -38,9 +38,7 @@ resource "aws_iam_role_policy" "service_execution_role" {
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
           "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "ssm:GetParameters",
-          "secretsmanager:GetSecretValue"
+          "logs:PutLogEvents"
         ],
         Resource = "*",
         Effect   = "Allow"

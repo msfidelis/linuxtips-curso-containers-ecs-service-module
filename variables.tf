@@ -9,7 +9,7 @@ variable "service_name" {
 }
 
 variable "container_image" {
-  type = string
+  type        = string
   description = "Imagem com tag para deployment da aplicação no ECS"
 }
 
@@ -83,18 +83,12 @@ variable "service_healthcheck" {
 variable "environment_variables" {
   type        = list(map(string))
   description = "Lista de variáveis de ambiente que serão passadas para o serviço."
-  default = []
-}
-
-variable "secrets" {
-  type        = list(map(string))
-  description = "Lista de secrets do parameter store que serão passadas para o serviço via variável de ambiente"
   default     = []
 }
 
 variable "capabilities" {
   type        = list(string)
-  default     = [  ]
+  default     = []
   description = "Lista de capacidades, como EC2 ou FARGATE"
 }
 
@@ -220,12 +214,12 @@ variable "scale_tracking_requests" {
 }
 
 variable "efs_volumes" {
-  default = []
   type = list(object({
-    volume_name      : string
-    file_system_id   : string
-    file_system_root      : string
-    read_only        : bool
-    mount_point   : string
+    volume_name : string
+    file_system_id : string
+    file_system_root : string
+    mount_point : string
+    read_only : bool
   }))
+  default = []
 }

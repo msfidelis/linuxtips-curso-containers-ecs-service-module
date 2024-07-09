@@ -18,9 +18,9 @@ resource "aws_ecs_task_definition" "main" {
       name = volume.value.volume_name
 
       efs_volume_configuration {
-        file_system_id          = volume.value.file_system_id
-        root_directory          = volume.value.file_system_root
-        transit_encryption      = "ENABLED"
+        file_system_id     = volume.value.file_system_id
+        root_directory     = volume.value.file_system_root
+        transit_encryption = "ENABLED"
       }
     }
   }
@@ -39,7 +39,7 @@ resource "aws_ecs_task_definition" "main" {
           containerPort = var.service_port
           hostPort      = var.service_port
           protocol      = "tcp"
-        },
+        }
       ]
 
       logConfiguration = {
@@ -60,7 +60,6 @@ resource "aws_ecs_task_definition" "main" {
       ]
 
       environment = var.environment_variables
-      secrets     = var.secrets
     }
   ])
 
