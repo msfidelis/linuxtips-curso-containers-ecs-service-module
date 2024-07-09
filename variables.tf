@@ -221,5 +221,6 @@ variable "efs_volumes" {
     mount_point : string
     read_only : bool
   }))
+  description = "Volumes EFS existentes para serem montados nas tasks do ECS"
   default = []
 }
