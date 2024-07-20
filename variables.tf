@@ -81,18 +81,18 @@ variable "service_healthcheck" {
 }
 
 variable "environment_variables" {
-  type        = list(object({
+  type = list(object({
     name : string
-    value: string
+    value : string
   }))
   description = "Lista de variáveis de ambiente que serão passadas para o serviço."
   default     = []
 }
 
 variable "secrets" {
-  type        = list(object({
+  type = list(object({
     name : string
-    valueFrom: string
+    valueFrom : string
   }))
   description = "Lista de secrets do parameter store ou do secrets manager"
   default     = []
@@ -234,5 +234,10 @@ variable "efs_volumes" {
     read_only : bool
   }))
   description = "Volumes EFS existentes para serem montados nas tasks do ECS"
-  default = []
+  default     = []
+}
+
+variable "service_discovery_namespace" {
+  description = "Namespace ID do Service Discovery"
+  default = null
 }
