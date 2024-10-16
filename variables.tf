@@ -60,46 +60,55 @@ variable "use_service_connect" {
 variable "deployment_controller" {
   type    = string
   default = "ECS"
+  description = "Define o tipo de controlador de deployment. O padrão é ECS. Aceita os valores ECS e CODE_DEPLOY"
 }
 
 variable "codedeploy_strategy" {
   type    = string
   default = "CodeDeployDefault.ECSAllAtOnce"
+  description = "Define a estratégia de deployment do CodeDeploy. O padrão é ECSAllAtOnce."
 }
 
 variable "codedeploy_deployment_option" {
   type    = string
   default = "WITH_TRAFFIC_CONTROL"
+  description = "Define a opção de deployment para o CodeDeploy. O padrão é WITH_TRAFFIC_CONTROL."
 }
 
 variable "codedeploy_deployment_type" {
   type    = string
   default = "BLUE_GREEN"
+  description = "Define o tipo de deployment do CodeDeploy. O padrão é BLUE_GREEN."
 }
 
 variable "codedeploy_termination_wait_time_in_minutes" {
   type    = number
   default = 5
+  description = "Define o tempo de espera, em minutos, para a terminação das tasks antigas em um deployment BLUE/GREEN. O padrão é 5 minutos."
 }
 
 variable "codedeploy_rollback_alarm" {
   type = bool
   default = true
+  description = "Define se o rollback será acionado com base em alarmes do CloudWatch. O padrão é true."
 }
 
 variable "codedeploy_rollback_error_threshold" {
   type    = number
   default = 10
+  description = "Define o limite percentual de erros que aciona o rollback. O padrão é 10%."
 }
 
 variable "codedeploy_rollback_error_period" {
   type = number
   default = 60
+  description = "Define o período de tempo, em segundos, para avaliar o erro durante o rollback. O padrão é 60 segundos."
 }
 
 variable "codedeploy_rollback_error_evaluation_period" {
   type    = number
   default = 1
+  description = "Define o número de períodos de avaliação antes de acionar o rollback. O padrão é 1 período."
 }
 
 variable "service_connect_name" {
