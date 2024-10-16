@@ -1,6 +1,6 @@
 resource "aws_alb_listener_rule" "main" {
 
-  count        = var.use_lb ? 1 : 0
+  count = (var.use_lb && var.deployment_controller == "ECS") ? 1 : 0
 
   listener_arn = var.service_listener
 

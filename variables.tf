@@ -34,8 +34,8 @@ variable "service_port" {
 }
 
 variable "use_lb" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Habilita a exposição do serviço via load balancer"
 }
 
@@ -57,6 +57,50 @@ variable "use_service_connect" {
   default     = false
 }
 
+variable "deployment_controller" {
+  type    = string
+  default = "ECS"
+}
+
+variable "codedeploy_strategy" {
+  type    = string
+  default = "CodeDeployDefault.ECSAllAtOnce"
+}
+
+variable "codedeploy_deployment_option" {
+  type    = string
+  default = "WITH_TRAFFIC_CONTROL"
+}
+
+variable "codedeploy_deployment_type" {
+  type    = string
+  default = "BLUE_GREEN"
+}
+
+variable "codedeploy_termination_wait_time_in_minutes" {
+  type    = number
+  default = 5
+}
+
+variable "codedeploy_rollback_alarm" {
+  type = bool
+  default = true
+}
+
+variable "codedeploy_rollback_error_threshold" {
+  type    = number
+  default = 10
+}
+
+variable "codedeploy_rollback_error_period" {
+  type = number
+  default = 60
+}
+
+variable "codedeploy_rollback_error_evaluation_period" {
+  type    = number
+  default = 1
+}
 
 variable "service_connect_name" {
   description = "Nome do Service Connect."
