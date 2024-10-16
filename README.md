@@ -11,6 +11,8 @@ No requirements.
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_local"></a> [local](#provider\_local) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
@@ -20,7 +22,10 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_alb_listener_rule.codedeploy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
 | [aws_alb_listener_rule.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
+| [aws_alb_target_group.blue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
+| [aws_alb_target_group.green](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
 | [aws_alb_target_group.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
 | [aws_appautoscaling_policy.cpu_high](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.cpu_low](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
@@ -30,12 +35,20 @@ No modules.
 | [aws_cloudwatch_log_group.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_metric_alarm.cpu_high](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.cpu_low](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.rollback_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_codedeploy_app.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codedeploy_app) | resource |
+| [aws_codedeploy_deployment_group.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codedeploy_deployment_group) | resource |
 | [aws_ecs_service.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
 | [aws_ecs_task_definition.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
+| [aws_iam_role.codedeploy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.service_execution_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.service_execution_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachment.codedeploy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_security_group.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_service_discovery_service.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_service) | resource |
+| [local_file.appspec](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [null_resource.deploy_codedeploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.deploy_ecs](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [aws_alb.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/alb) | data source |
 
 ## Inputs
@@ -45,7 +58,16 @@ No modules.
 | <a name="input_alb_arn"></a> [alb\_arn](#input\_alb\_arn) | ARN do Application Load Balancer usado para rastreamento de solicitações. | `string` | `null` | no |
 | <a name="input_capabilities"></a> [capabilities](#input\_capabilities) | Lista de capacidades, como EC2 ou FARGATE | `list(string)` | `[]` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Nome do cluster ECS onde o serviço será implantado. | `string` | n/a | yes |
+| <a name="input_codedeploy_deployment_option"></a> [codedeploy\_deployment\_option](#input\_codedeploy\_deployment\_option) | Define a opção de deployment para o CodeDeploy. O padrão é WITH\_TRAFFIC\_CONTROL. | `string` | `"WITH_TRAFFIC_CONTROL"` | no |
+| <a name="input_codedeploy_deployment_type"></a> [codedeploy\_deployment\_type](#input\_codedeploy\_deployment\_type) | Define o tipo de deployment do CodeDeploy. O padrão é BLUE\_GREEN. | `string` | `"BLUE_GREEN"` | no |
+| <a name="input_codedeploy_rollback_alarm"></a> [codedeploy\_rollback\_alarm](#input\_codedeploy\_rollback\_alarm) | Define se o rollback será acionado com base em alarmes do CloudWatch. O padrão é true. | `bool` | `true` | no |
+| <a name="input_codedeploy_rollback_error_evaluation_period"></a> [codedeploy\_rollback\_error\_evaluation\_period](#input\_codedeploy\_rollback\_error\_evaluation\_period) | Define o número de períodos de avaliação antes de acionar o rollback. O padrão é 1 período. | `number` | `1` | no |
+| <a name="input_codedeploy_rollback_error_period"></a> [codedeploy\_rollback\_error\_period](#input\_codedeploy\_rollback\_error\_period) | Define o período de tempo, em segundos, para avaliar o erro durante o rollback. O padrão é 60 segundos. | `number` | `60` | no |
+| <a name="input_codedeploy_rollback_error_threshold"></a> [codedeploy\_rollback\_error\_threshold](#input\_codedeploy\_rollback\_error\_threshold) | Define o limite percentual de erros que aciona o rollback. O padrão é 10%. | `number` | `10` | no |
+| <a name="input_codedeploy_strategy"></a> [codedeploy\_strategy](#input\_codedeploy\_strategy) | Define a estratégia de deployment do CodeDeploy. O padrão é ECSAllAtOnce. | `string` | `"CodeDeployDefault.ECSAllAtOnce"` | no |
+| <a name="input_codedeploy_termination_wait_time_in_minutes"></a> [codedeploy\_termination\_wait\_time\_in\_minutes](#input\_codedeploy\_termination\_wait\_time\_in\_minutes) | Define o tempo de espera, em minutos, para a terminação das tasks antigas em um deployment BLUE/GREEN. O padrão é 5 minutos. | `number` | `5` | no |
 | <a name="input_container_image"></a> [container\_image](#input\_container\_image) | Imagem com tag para deployment da aplicação no ECS | `string` | n/a | yes |
+| <a name="input_deployment_controller"></a> [deployment\_controller](#input\_deployment\_controller) | Define o tipo de controlador de deployment. O padrão é ECS. Aceita os valores ECS e CODE\_DEPLOY | `string` | `"ECS"` | no |
 | <a name="input_efs_volumes"></a> [efs\_volumes](#input\_efs\_volumes) | Volumes EFS existentes para serem montados nas tasks do ECS | <pre>list(object({<br>    volume_name : string<br>    file_system_id : string<br>    file_system_root : string<br>    mount_point : string<br>    read_only : bool<br>  }))</pre> | `[]` | no |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | Lista de variáveis de ambiente que serão passadas para o serviço. | <pre>list(object({<br>    name : string<br>    value : string<br>  }))</pre> | `[]` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | Lista de IDs das subnets privadas onde o serviço será implantado. | `list(string)` | n/a | yes |
